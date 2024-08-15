@@ -1,4 +1,4 @@
-# webOS-gemelos
+# Huevitos Web Repository!!
 
 Integrantes
 - García Rios Jimena Guadalupe
