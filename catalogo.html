@@ -7,39 +7,24 @@
         <link rel="stylesheet" href="Css/cartaPlantas.css" type="text/css">
 
         <title>Catalogo</title>
-        
+
         <style>
+            @media print{
+                #encabezado{
+                    visibility: hidden;
+                }
+
+                #cardScroller{
+                    height:auto;
+                }
+
+            }
+            
             body, html {
+                background-color: white;
                 height: 100%;
                 margin: auto;
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
-
-            .botonSeccion{
-                width: 100%;
-                height: 70px;
-                flex:left;
-                font-size: large;
-                text-align: center;
-                color:white;
-                background-color: #002E5F;
-                border: none;
-                border-bottom: 2px solid #577189;
-            }
-
-            .botonSeccion:hover{
-                background-color: rgb(166, 196, 179);
-                color: rgb(21, 65, 97);
-                cursor:pointer;
-            }
-
-            #seccionScroller{
-                width:100%;
-                height:70%;
-                padding:0px;
-                text-align: center;
-                overflow-y: scroll;
-                overflow-x: hidden;
             }
 
             #tituloCatalogo{
@@ -72,7 +57,7 @@
             }
 
             #contenidoCatalogo {
-                width: 80%;
+                width: 100%;
                 height: 100%;
                 text-align: left;
                 background-color: white;
@@ -96,12 +81,6 @@
             #barrabusqueda{
                 height: 30px;
             }
-
-            /*
-            div{
-                border: 1px solid black;
-            }
-            */
 
         </style>
     </head>
@@ -135,17 +114,6 @@
             <br>
             <br>
         </div>
-
-        <div id="contenedorSeccion">
-            <div id="headerSecciones"><h3>Categoria</h3></div>
-            <input type="button" value="Add category" class="agregarSeccion" onclick="addCategory();">
-
-            <div id="seccionScroller">
-
-            </div>
-            
-
-        </div>
         
         <div id="contenidoCatalogo" class="restriccion">
             <div id="buscador">
@@ -168,7 +136,23 @@
     </body>
 
     <script>
-        //window.onload()
+        function CardInfo(title,image){
+            this.title = title;
+            this.image = image;
+
+            this.saveCardInfo=alertCardInfo;
+
+            console.log("Objeto Carta creado");
+            console.log(this);
+        }
+        
+        function alertCardInfo(){
+            console.log("Informacion de carta establecida");
+            alert("Titulo: " + this.title + " Imagen: " + this.image);
+        }
+
+        var myCard;
+        var cardList=[];
 
         function addCard(){
             const newCard=document.createElement('div');
