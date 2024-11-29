@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (isset($_SESSION["valido"])) {
+    header("location: administracionVivero.php");
+    exit();
+}
+
 include("funciones.php");
 
 $estado = filter_input(INPUT_GET, "estado", FILTER_SANITIZE_URL);
@@ -24,8 +31,8 @@ switch ($estado) {
     default:
         $mensaje = "";
 }
-
 ?>
+
 
 <html>
 
@@ -33,21 +40,6 @@ switch ($estado) {
     <title>Aplicación</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-    <style>
-        table {
-            border: solid 1px;
-        }
-
-        #estado {
-            border: solid 1px #CCC;
-            background-color: #EEE;
-            color: blue;
-            visibility: hidden;
-            margin-bottom: 4px;
-            padding: 4px;
-            width: 500px;
-        }
-    </style>
 
     <script>
         <?php echo "var estado = '" . $mensaje . "';"; ?>
@@ -82,7 +74,7 @@ switch ($estado) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -90,25 +82,52 @@ switch ($estado) {
     <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="../Css/inicioSesion.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const estado = "<?php echo $mensaje; ?>";
+            const usuario = "<?php echo $usuario; ?>";
+
+            const panelEstado = document.getElementById("estado");
+            const inputUsuario = document.getElementById("usuario");
+
+            // Mostrar mensaje de estado si existe
+            if (estado) {
+                panelEstado.textContent = estado;
+                panelEstado.style.visibility = "visible";
+                panelEstado.style.opacity = "1";
+
+                // Ocultar el mensaje después de 3 segundos
+                setTimeout(() => {
+                    panelEstado.style.opacity = "0";
+                    panelEstado.style.transition = "opacity 1s ease";
+                }, 3000);
+            }
+
+            // Prellenar el campo de usuario si hay valor
+            if (usuario) {
+                inputUsuario.value = usuario;
+            }
+        });
+    </script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="login-box">
+    <div class="contenedor">
+        <div class="caja-login">
             <h2>Iniciar Sesión</h2>
-            <!-- Div para mensajes de estado -->
-            <div id="estado">Mensaje</div>
-            <form action="validador.php" method="post">
-                <div class="input-container">
+            <!-- Mensaje de estado -->
+            <div id="estado" class="mensaje-estado"></div>
+            <form action="validador.php" method="post" name="forma">
+                <div class="contenedor-input">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
                 </div>
-                <div class="input-container">
+                <div class="contenedor-input">
                     <label for="contrasena">Contraseña</label>
                     <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
                 </div>
                 <button type="submit" class="btn">Iniciar Sesión</button>
-                
+                <p class="enlace-registro">Regresar al inicio <a href="../index.html">Inicio</a></p>
             </form>
         </div>
     </div>
