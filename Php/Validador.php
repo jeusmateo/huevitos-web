@@ -6,11 +6,11 @@ $usuarioF = (isset($_REQUEST["usuario"]) && is_string($_REQUEST["usuario"])) ? $
 $contrasenaF = (isset($_REQUEST["contrasena"]) && is_string($_REQUEST["contrasena"])) ? $_REQUEST["contrasena"] : "";
 
 if ($usuarioF == "") {
-	header("location: index.php?estado=1");
+	header("location: inicio_de_sesion.php");
 	exit();
 }
 if (empty($contrasenaF)) {
-	header("location: index.php?estado=2&usuario=" . $usuarioF);
+	header("location: inicio_de_sesion.php" . $usuarioF);
 	exit();
 }
 
@@ -44,5 +44,5 @@ if (mysqli_num_rows($resultado) > 0) {
 	header("location: menu.php");
 } else {
 	//Si no redirigir a la página index.html 
-	header("location: index.php?estado=3");
+	header("location: index.php");
 }
