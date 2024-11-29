@@ -1,17 +1,14 @@
 <?php
 
-$servidor = "localhost";
-$usuario = "root";
-$contrasena = "";
-$basedatos = "inventario";
+include("variables.php");
 
 $usuarioF = (isset($_REQUEST["usuario"]) && is_string($_REQUEST["usuario"])) ? $_REQUEST["usuario"] : "";
 $contrasenaF = (isset($_REQUEST["contrasena"]) && is_string($_REQUEST["contrasena"])) ? $_REQUEST["contrasena"] : "";
 
 if ($usuarioF == "") {
-	 header("location: index.php?estado=1");
-	 exit();
-	 }
+	header("location: index.php?estado=1");
+	exit();
+}
 if (empty($contrasenaF)) {
 	header("location: index.php?estado=2&usuario=" . $usuarioF);
 	exit();
@@ -19,7 +16,7 @@ if (empty($contrasenaF)) {
 
 $conexion = mysqli_connect($servidor, $usuario, $contrasena, $basedatos);
 if (!$conexion) {
-    die("Fallo: " . mysqli_connect_error());
+	die("Fallo: " . mysqli_connect_error());
 }
 
 
@@ -37,19 +34,15 @@ mysqli_close($conexion);
 
 if (mysqli_num_rows($resultado) > 0) {
 
-	$registro = mysqli_fetch_assoc($resultado);	
-	
+	$registro = mysqli_fetch_assoc($resultado);
+
 	session_start();
-	$_SESSION["valido"] = true;	
-	$_SESSION["nombre"] = $registro["nombre"];	
+	$_SESSION["valido"] = true;
+	$_SESSION["nombre"] = $registro["nombre"];
 
 	//Si hay registro reenviar a la página menu.php
 	header("location: menu.php");
-	
 } else {
 	//Si no redirigir a la página index.html 
 	header("location: index.php?estado=3");
 }
-
-
-?>

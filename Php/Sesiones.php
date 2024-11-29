@@ -2,17 +2,15 @@
 
 session_start();
 
-if (!isset($_SESSION["valido"])) {
-    header("location: index.html");
-    exit();
-}
+$_SESSION["usuario"] = "admin";
+$_SESSION["Edad"] = 20;
+$_SESSION["valido"] = true;
 
 
-$servidor = "localhost";
-$usuario = "root";
-$contrasena = "";
-$basedatos = "inventario";
+include ("variables.php");
 
+echo "Bienvenido " . $_SESSION["usuario"];
 
+session_destroy();
 
 ?>
