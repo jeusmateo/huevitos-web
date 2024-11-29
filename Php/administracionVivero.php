@@ -120,7 +120,6 @@ if (!isset($_SESSION["valido"] )) {
             <nav>
                 <ul class="nav">
                     <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="">Catálogo</a></li>
                     <li><a href="../Php/cerrarSesion.php">Cerrar Sesion</a></li>
                 </ul>
             </nav>
