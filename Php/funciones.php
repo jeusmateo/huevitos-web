@@ -23,7 +23,6 @@ function EjecutarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaSQ
 }
 
 function ConsultarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaSQL) {
-
 	$conexion = mysqli_connect($servidor, $usuario, $contrasena, $basedatos);
 	if (!$conexion) {
     	die("Fallo: " . mysqli_connect_error());
@@ -36,7 +35,6 @@ function ConsultarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaS
 	mysqli_close($conexion);
 	
 	return $registros;
-
 }
 
 
