@@ -7,7 +7,7 @@ if (isset($_SESSION["valido"])) {
     exit();
 }
 
-include("funciones.php");
+include("Php/funciones.php");
 
 $estado = filter_input(INPUT_GET, "estado", FILTER_SANITIZE_URL);
 $usuario = filter_input(INPUT_GET, "usuario", FILTER_SANITIZE_STRING);
@@ -80,7 +80,7 @@ switch ($estado) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
-    <link rel="stylesheet" href="../Css/inicioSesion.css">
+    <link rel="stylesheet" href="Css/inicioSesion.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -117,7 +117,7 @@ switch ($estado) {
             <h2>Iniciar Sesión</h2>
             <!-- Mensaje de estado -->
             <div id="estado" class="mensaje-estado"></div>
-            <form action="validador.php" method="post" name="forma">
+            <form action="Php/Validador.php" method="post" name="forma">
                 <div class="contenedor-input">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
@@ -127,7 +127,7 @@ switch ($estado) {
                     <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
                 </div>
                 <button type="submit" class="btn">Iniciar Sesión</button>
-                <p class="enlace-registro">Regresar al inicio <a href="../index.html">Inicio</a></p>
+                <p class="enlace-registro">Regresar al inicio <a href="index.html">Inicio</a></p>
             </form>
         </div>
     </div>
