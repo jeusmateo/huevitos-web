@@ -25,3 +25,25 @@ function ConsultarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaS
 
 	return $registros;
 }
+
+function ejecutarSQLConfigurado($sentenciaSQL): array {
+    $mysqli=abrirConexionSQL();
+
+    $resultado = $mysqli->query($sentenciaSQL);
+    $mysqli->close();
+
+    $registro = array();
+
+    foreach ($resultado as $fila){
+        $registro[] = $fila;
+    }
+
+    return $registro;
+}
+
+function abrirConexionSQL(): mysqli{
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    global $servidor, $usuario, $contrasena, $basedatos;
+    include 'variables.php';
+    return new mysqli($servidor, $usuario, $contrasena, $basedatos);
+}

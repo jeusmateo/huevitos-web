@@ -50,7 +50,7 @@
                         <?php
                         include 'Php/funciones.php';
                         include 'Php/variables.php';
-                        $sql = "SELECT * FROM arboles_familia";
+                        $sql = "SELECT id_familia, nombre FROM arboles_familia";
                         global $servidor, $usuario, $contrasena, $basedatos;
                         $familias = ConsultarSQL($servidor, $usuario, $contrasena, $basedatos, $sql);
                         foreach ($familias as $familia) {
