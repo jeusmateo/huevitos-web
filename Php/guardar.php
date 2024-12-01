@@ -1,5 +1,4 @@
 <?php
-
 // * * * *
 session_start();
 if (!$_SESSION["valido"]) {
@@ -21,13 +20,17 @@ function isFieldsEmpty(): bool
         empty($_REQUEST["floracion"]) ||
         empty($_REQUEST["descripcion"]) ||
         empty($_REQUEST["usos"]) ||
-        empty($_REQUEST["imagen"]);
+        empty($_FILES["imagen"]);
 }
 
-if (isFieldsEmpty()) {
+if (isFieldsEmpty() || $_FILES["imagen"]["error"] != UPLOAD_ERR_OK || $_FILES["imagen"]["size"] == 0) {
     header("location: ../formularioPlantas.php");
     exit();
 }
+
+// procesar imagen
+$tmp_name = htmlentities($_FILES["imagen"]["tmp_name"]);
+$contenido_imagen = file_get_contents($tmp_name);
 
 // Obtener los datos del formulario
 $nombreComunF = $_REQUEST["nombreComun"];
@@ -37,7 +40,7 @@ $frutoF = $_REQUEST["fruto"];
 $floracionF = $_REQUEST["floracion"];
 $descripcionF = $_REQUEST["descripcion"];
 $usosF = $_REQUEST["usos"];
-$imagenF = $_REQUEST["imagen"];
+$imagenF = $contenido_imagen;
 
 //Evitar cross scripting - sustituir caracteres ' o " por equivalentes en HTML
 $nombreComunF = htmlentities($nombreComunF);
@@ -47,13 +50,12 @@ $frutoF = htmlentities($frutoF);
 $floracionF = htmlentities($floracionF);
 $descripcionF = htmlentities($descripcionF);
 $usosF = htmlentities($usosF);
-$imagenF = htmlentities($imagenF);
 
-$conexion = abrirConexionSQL();
+$conexion = abrir_conexion_sql();
 
 $stmt = $conexion->prepare("INSERT INTO arboles(
     nombre_cientifico,
-    ruta_imagen,
+    binario_imagen,
     id_familia,
     nombre_comun,
     descripcion,

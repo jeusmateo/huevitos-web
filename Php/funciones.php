@@ -27,7 +27,7 @@ function ConsultarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaS
 }
 
 function ejecutarSQLConfigurado($sentenciaSQL): array {
-    $mysqli=abrirConexionSQL();
+    $mysqli=abrir_conexion_sql();
 
     $resultado = $mysqli->query($sentenciaSQL);
     $mysqli->close();
@@ -41,7 +41,7 @@ function ejecutarSQLConfigurado($sentenciaSQL): array {
     return $registro;
 }
 
-function abrirConexionSQL(): mysqli{
+function abrir_conexion_sql(): mysqli{
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     global $servidor, $usuario, $contrasena, $basedatos;
     include 'variables.php';
