@@ -11,5 +11,3 @@ if (!isset($_SESSION["valido"])) {
 session_destroy();
 
 header("location: ../inicio_de_sesion.php?estado=5");
-
-?>

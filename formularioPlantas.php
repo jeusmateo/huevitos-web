@@ -30,6 +30,7 @@ if (!$_SESSION["valido"]) {
 
         <nav>
             <ul class="nav">
+                <li><a href="formularioFamilias.php">Administrar familia de plantas</a></li>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="">Catálogo</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
@@ -58,12 +59,11 @@ if (!$_SESSION["valido"]) {
                 <td><select name="familia" id="familia">
                         <?php
                         include 'Php/funciones.php';
-                        include 'Php/variables.php';
                         $sql = "SELECT id_familia, nombre FROM arboles_familia";
-                        global $servidor, $usuario, $contrasena, $basedatos;
-                        $familias = ConsultarSQL($servidor, $usuario, $contrasena, $basedatos, $sql);
+
+                        $familias = ejecutarSQLConfigurado($sql);
                         foreach ($familias as $familia) {
-                            echo "<option value=\"{$familia['id_familia']}\">{$familia['nombre']}</option>\n";
+                            echo "<option value='$familia[id_familia]'>$familia[nombre]</option>\n";
                         }
                         ?>
                     </select></td>

@@ -148,7 +148,6 @@ if (!isset($_SESSION["valido"] )) {
             </div>
             <input type="button" value="Add card" class="agregarCarta" onclick="addCard();">
             <input type="button" value="Registrar nueva planta" onclick="location.href='formularioPlantas.php'">
-            <input type="button" value="Registrar nueva familia" onclick="location.href='formularioFamilias.php'">
         </div>
 
         <div id="cardScroller">
