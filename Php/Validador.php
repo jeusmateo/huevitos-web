@@ -1,6 +1,6 @@
 <?php
 
-include("variables.php");
+include 'funciones.php';
 
 $usuarioF = (isset($_REQUEST["usuario"]) && is_string($_REQUEST["usuario"])) ? $_REQUEST["usuario"] : "";
 $contrasenaF = (isset($_REQUEST["contrasena"]) && is_string($_REQUEST["contrasena"])) ? $_REQUEST["contrasena"] : "";
@@ -13,7 +13,7 @@ if (empty($contrasenaF)) {
 	header("location: ../inicio_de_sesion.php?estado=2&usuario=" . $usuarioF);
 	exit();
 }
-$conexion = abrirConexionSQL();
+$conexion = abrir_conexion_sql();
 
 //Evitar inyección SQL
 $usuarioF = mysqli_real_escape_string($conexion, $usuarioF);

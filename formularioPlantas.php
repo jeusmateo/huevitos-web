@@ -41,7 +41,7 @@ if (!$_SESSION["valido"]) {
 
 <section id="planta-section">
     <br><br><br><br>
-    <form id="plantaForm" action="Php/guardar.php" method="get" enctype="multipart/form-data">
+    <form id="plantaForm" action="Php/guardar.php" method="post" enctype="multipart/form-data">
         <h2>Registro de planta</h2>
         <!-- Otros campos del formulario -->
         <table align="center">
@@ -89,6 +89,10 @@ if (!$_SESSION["valido"]) {
             Arrastra aquí una imagen
         </div>
         <div id="preview">Imagen no disponible</div>
+
+        <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
+        <!-- El archivo maximo es de 2^24 + 3 https://dev.mysql.com/doc/refman/8.0/en/storage-requirements.html#data-types-storage-reqs-strings -->
+        <input type="hidden" name="MAX_FILE_SIZE" value="16777219"/>
 
         <!-- Input oculto para manejar la imagen a subir-->
         <input type="file" id="fileInput" name="imagen">
