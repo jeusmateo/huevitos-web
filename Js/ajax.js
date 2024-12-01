@@ -7,4 +7,7 @@ function ejecutarPeticion(url, onSuccess) {
     };
     xhttp.open("GET", url, true);
     xhttp.send();
+
+    alert("WIP: AUN NO ESTA TERMINADO ⚠️⚠️");
+    throw new Error('No implementado ⚠️⚠️');
 }

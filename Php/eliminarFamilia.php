@@ -15,7 +15,7 @@ if(empty($_REQUEST["familia"])){
 }
 
 $sql = "DELETE FROM arboles_familia WHERE id_familia = ?";
-$mysqli = abrirConexionSQL();
+$mysqli = abrir_conexion_sql();
 foreach ($_REQUEST["familia"] as $item){
     $id_familia = sprintf("%d", $item);
     $stmt = $mysqli->prepare($sql);
