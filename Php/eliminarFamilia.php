@@ -2,7 +2,7 @@
 // * * * *
 session_start();
 if (!$_SESSION["valido"]) {
-    header("location: administracionVivero.php?estado=4");
+    header("location: ../administracionVivero.php?estado=4");
     exit();
 }
 // * * * *

@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+if (!$_SESSION["valido"]) {
+    header("location: inicio_de_sesion.php?estado=4");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -68,8 +77,12 @@
                 <td><input type="text" id="floracion" name="floracion" placeholder="Floracion"></td>
             </tr>
         </table>
-        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la planta"
-                  rows="5"></textarea>
+
+        <label for="descripcion">Descripcion de la planta</label>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la planta" rows="5"></textarea>
+
+        <label for="usos">Usos de la planta</label>
+        <textarea name="usos" id="usos" rows="5"></textarea>
 
         <!-- Visualizacion de la imagen -->
         <div id="dropZone">

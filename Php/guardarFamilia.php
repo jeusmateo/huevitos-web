@@ -3,7 +3,7 @@
 // * * * *
 session_start();
 if (!$_SESSION["valido"]) {
-    header("location: index.php?estado=4");
+    header("location: ../inicio_de_sesion.php?estado=4");
     exit();
 }
 // * * * *
@@ -14,7 +14,7 @@ include 'variables.php';
 global $servidor, $usuario, $contrasena, $basedatos;
 
 if(empty($_REQUEST['nombreFamilia'])){
-    header("location: {$_SERVER[""]}");
+    header("location: ../formularioFamilias.php");
     exit();
 }
 

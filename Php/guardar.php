@@ -1,25 +1,27 @@
 <?php
 
-// * * * * TODO: descomentar esto para habilitar la validación de sesión
-//session_start();
-//if (!$_SESSION["valido"]) {
-//    header("location: index.php?estado=4");
-//    exit();
-//}
+// * * * *
+session_start();
+if (!$_SESSION["valido"]) {
+    header("location: ../inicio_de_sesion.php?estado=4");
+    exit();
+}
 // * * * *
 
 global $servidor, $usuario, $contrasena, $basedatos;
 include 'variables.php';
 include 'funciones.php';
 
-function isFieldsEmpty(): bool {
+function isFieldsEmpty(): bool
+{
     return empty($_REQUEST["nombreComun"]) ||
         empty($_REQUEST["nombreCientifico"]) ||
         empty($_REQUEST["familia"]) ||
         empty($_REQUEST["fruto"]) ||
         empty($_REQUEST["floracion"]) ||
-        empty($_REQUEST["descripcion"] ||
-            empty($_REQUEST["imagen"]));
+        empty($_REQUEST["descripcion"]) ||
+        empty($_REQUEST["usos"]) ||
+        empty($_REQUEST["imagen"]);
 }
 
 if (isFieldsEmpty()) {
@@ -34,6 +36,7 @@ $familiaF = $_REQUEST["familia"];
 $frutoF = $_REQUEST["fruto"];
 $floracionF = $_REQUEST["floracion"];
 $descripcionF = $_REQUEST["descripcion"];
+$usosF = $_REQUEST["usos"];
 $imagenF = $_REQUEST["imagen"];
 
 //Evitar cross scripting - sustituir caracteres ' o " por equivalentes en HTML
@@ -43,19 +46,10 @@ $familiaF = htmlentities($familiaF);
 $frutoF = htmlentities($frutoF);
 $floracionF = htmlentities($floracionF);
 $descripcionF = htmlentities($descripcionF);
+$usosF = htmlentities($usosF);
 $imagenF = htmlentities($imagenF);
 
-var_dump($nombreComunF);
-var_dump($nombreCientificoF);
-var_dump($familiaF);
-var_dump($frutoF);
-var_dump($floracionF);
-var_dump($descripcionF);
-var_dump($imagenF);
-
-// Abre la conexion a la base de datos
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$conexion = new mysqli($servidor, $usuario, $contrasena, $basedatos);
+$conexion = abrirConexionSQL();
 
 $stmt = $conexion->prepare("INSERT INTO arboles(
     nombre_cientifico,
@@ -64,23 +58,23 @@ $stmt = $conexion->prepare("INSERT INTO arboles(
     nombre_comun,
     descripcion,
     fruto,
-    floracion
+    floracion,
+    usos
 )
-VALUES(?, ?, ?, ?, ?, ?, ?)");
+VALUES(?, ?, ?, ?, ?, ?, ?,?)");
 
 $stmt->bind_param(
-    "ssissss",
+    "ssisssss",
     $nombreCientificoF,
     $imagenF,
     $familiaF,
     $nombreComunF,
     $descripcionF,
     $frutoF,
-    $floracionF
+    $floracionF,
+    $usosF
 );
 
 $stmt->execute();
 
-exit();
-
-header("location: administracionVivero.php");
+header("location: ../administracionVivero.php");
