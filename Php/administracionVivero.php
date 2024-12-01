@@ -1,0 +1,211 @@
+<?php
+
+session_start();
+if (!isset($_SESSION["valido"] )) {
+    header("location: inicio_de_sesion.php?estado=4");
+    exit();
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="../Css/encabezado.css" type="text/css">
+    <link rel="stylesheet" href="../Css/cartaPlantas.css" type="text/css">
+
+    <title>Catalogo</title>
+
+    <style>
+        @media print {
+            #encabezado {
+                visibility: hidden;
+            }
+
+            #cardScroller {
+                height: auto;
+            }
+
+        }
+
+        body,
+        html {
+            background-color: white;
+            height: 100%;
+            margin: auto;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        #tituloCatalogo {
+            width: 100%;
+            text-align: center;
+            font-size: xx-large;
+            color: #143253;
+            background-color: #1d8145;
+            float: left;
+        }
+
+        #contenedorTitulo {
+            width: 100%;
+            background-color: #1d8145;
+        }
+
+        #contenedorSeccion {
+            width: 20%;
+            height: 100%;
+            min-height: 100%;
+            background-color: #002E5F;
+            margin: 0px;
+            float: left;
+        }
+
+        #headerSecciones {
+            width: 100%;
+            text-align: center;
+            color: aliceblue;
+        }
+
+        #contenidoCatalogo {
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            background-color: white;
+            float: left;
+        }
+
+        #buscador {
+            width: 100%;
+            height: 50px;
+            border-bottom: 2px solid #C79316;
+        }
+
+        #contenedorBarraBusqueda {
+            height: 100%;
+            padding-left: 30px;
+            padding-right: 30px;
+            align-content: center;
+            float: left;
+        }
+
+        #barrabusqueda {
+            height: 30px;
+        }
+
+        .pie-pagina {
+    background-color: #002E5F;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+    </style>
+</head>
+
+<body>
+    <header id="encabezado">
+        <div class="encabezado-container">
+            <div class="logo-container">
+                <img src="../Recursos/Svg/logo_uady.svg" alt="logo UADY" class="logo">
+                <img src="../Recursos/img/RSULogo.png" alt="logo RSU" class="logo">
+            </div>
+            <div class="dicho-uady">
+                <h4>"Luz, Ciencia y Verdad"</h4>
+            </div>
+
+            <nav>
+                <ul class="nav">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../Php/cerrarSesion.php">Cerrar Sesion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <div id="tituloCatalogo">
+        <pre>
+
+            </pre>
+        <b>Catálogo de plantas</b>
+        <br>
+        <br>
+    </div>
+
+    <div id="contenidoCatalogo" class="restriccion">
+        <div id="buscador">
+            <div id="contenedorBarraBusqueda">
+                <form>
+                    <input id="barrabusqueda" type="text" placeholder="Search.." name="search">
+                    <img src="../Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa">
+                    <!--<button type="submit"><img height="50px" alt="lupa"></button>-->
+
+                </form>
+            </div>
+            <input type="button" value="Add card" class="agregarCarta" onclick="addCard();">
+        </div>
+
+        <div id="cardScroller">
+            <div id="cardContainer" class="flexCards"></div>
+        </div>
+    </div>
+
+    
+
+</body>
+
+<script>
+    function CardInfo(title, image) {
+        this.title = title;
+        this.image = image;
+
+        this.saveCardInfo = alertCardInfo;
+
+        console.log("Objeto Carta creado");
+        console.log(this);
+    }
+
+    function alertCardInfo() {
+        console.log("Informacion de carta establecida");
+        alert("Titulo: " + this.title + " Imagen: " + this.image);
+    }
+
+    var myCard;
+    var cardList = [];
+
+    function addCard() {
+        const newCard = document.createElement('div');
+        newCard.classList.add('card'); //agregar clase card a la nueva carta
+
+        var image = document.createElement('img');
+        image.setAttribute("src", "../Recursos/img/houseplant-7367379_1280.jpg");
+        image.setAttribute("width", "270px");
+        image.setAttribute("height", "150px");
+        image.setAttribute("alt", "Flower");
+
+        var plantName = document.createElement('h3');
+        plantName.textContent = 'Carta';
+
+        newCard.appendChild(image);
+        newCard.appendChild(plantName);
+
+        document.getElementById('cardContainer').appendChild(newCard);
+    }
+
+    function addCategory() {
+        //<input type="button" value="Default" class="botonSeccion"></button>
+        const newCategory = document.createElement('input');
+        newCategory.classList.add('botonSeccion');
+
+        newCategory.setAttribute("type", "button");
+        newCategory.setAttribute("value", "Default");
+
+        document.getElementById('seccionScroller').appendChild(newCategory);
+    }
+</script>
+
+</html>
