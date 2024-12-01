@@ -33,7 +33,7 @@ form {
     box-shadow: 0 4px 15px rgba(169, 169, 169, 0.3);
 }
 
-input, textarea {
+input, textarea, select {
     width: 100%;
     padding: 5px;
     margin: 10px 0;
