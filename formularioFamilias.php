@@ -77,7 +77,7 @@ if (!isset($_SESSION["valido"])) {
 
                 $sql = 'SELECT id_familia, nombre FROM arboles_familia';
 
-                $resultado = ejecutarSQLConfigurado($sql);
+                $resultado = ejecutar_sql_configurado($sql);
 
                 foreach ($resultado as $fila) {
                     echo "<tr><td><input type='checkbox' name='familia[]' value='$fila[id_familia]'></td><td>$fila[nombre]</td></tr>\n";
