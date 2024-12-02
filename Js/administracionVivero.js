@@ -1,9 +1,15 @@
+const cardList = [];
+
 window.onload = function () {
     ejecutarPeticion("Php/leer.php", function (xhttp) {
-        const respuesta = JSON.parse(xhttp.response);
+        const listaPlantas = JSON.parse(xhttp.response);
 
-        console.log(respuesta);
-        respuesta.forEach((e)=>console.log(e));
+        // fixme
+        listaPlantas.forEach(function (element){
+            const card = new CardInfo(element.nombre_cientifico, element.ruta_imagen);
+            cardList.push(card);
+
+        });
 
     });
 
@@ -21,6 +27,7 @@ function ejecutarPeticion(url, accion) {
     xhttp.send();
 }
 
+// se podrían añadir más atributos para crear al objeto
 function CardInfo(title, image) {
     this.title = title;
     this.image = image;
@@ -35,9 +42,6 @@ function alertCardInfo() {
     console.log("Informacion de carta establecida");
     alert("Titulo: " + this.title + " Imagen: " + this.image);
 }
-
-let myCard;
-const cardList = [];
 
 function addCard() {
     const newCard = document.createElement('div');
