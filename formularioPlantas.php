@@ -6,6 +6,35 @@ if (!$_SESSION["valido"]) {
     exit();
 }
 
+include 'Php/funciones.php';
+
+$accion = isset($_REQUEST['accion']) ? sprintf('%s', $_REQUEST["accion"]) : '';
+$id_planta = isset($_REQUEST['id']) ? sprintf('%d', $_REQUEST['id']) : '';
+
+$campos = array_fill(0, 9, '');
+
+if ($accion == 'editar' && $id_planta != "") {
+    $sql = "SELECT nombre_comun, 
+                   nombre_cientifico, 
+                   id_familia,
+                   fruto,
+                   floracion, 
+                   descripcion, 
+                   usos,
+                   ruta_imagen,
+                   id_arbol FROM arboles WHERE id_arbol = ?";
+    $conexion = abrir_conexion_sql();
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param('i', $id_planta);
+    $resultado = $stmt->execute();
+
+    $fila = $stmt->get_result()->fetch_row();
+
+    if ($fila)
+        $campos = $fila;
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,6 +45,7 @@ if (!$_SESSION["valido"]) {
     <link rel="stylesheet" href="Css/formularioPlantas.css" type="text/css">
 
     <title>Formulario de Plantas</title>
+
 </head>
 <body>
 <header id="encabezado">
@@ -41,54 +71,69 @@ if (!$_SESSION["valido"]) {
 
 <section id="planta-section">
     <br><br><br><br>
-    <form id="plantaForm" action="Php/guardar.php" method="post" enctype="multipart/form-data">
+    <form name="forma" id="plantaForm" action="Php/guardar.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id_planta" value="<?php echo $campos[8] ?>">
         <h2>Registro de planta</h2>
         <!-- Otros campos del formulario -->
         <table align="center">
             <tr>
                 <td><label for="nombreComun">Nombre común de la planta:</label></td>
-                <td><input type="text" id="nombreComun" name="nombreComun" placeholder="Nombre común"></td>
+                <td><input type="text" id="nombreComun" name="nombreComun" placeholder="Nombre común"
+                           value="<?php echo $campos[0] ?>"></td>
             </tr>
             <tr>
                 <td><label for="nombreCientifico">Nombre científico de la planta:</label></td>
-                <td><input type="text" id="nombreCientifico" name="nombreCientifico" placeholder="Nombre científico">
+                <td><input type="text" id="nombreCientifico" name="nombreCientifico" placeholder="Nombre científico"
+                           value="<?php echo $campos[1] ?>">
                 </td>
             </tr>
             <tr>
                 <td><label for="familia">Familia de la planta:</label></td>
                 <td><select name="familia" id="familia">
                         <?php
-                        include 'Php/funciones.php';
                         $sql = "SELECT id_familia, nombre FROM arboles_familia";
 
                         $familias = ejecutar_sql_configurado($sql);
                         foreach ($familias as $familia) {
-                            echo "<option value='$familia[id_familia]'>$familia[nombre]</option>\n";
+
+                            if ($familia["id_familia"] == $campos[2])
+                                printf("<option value='%d' selected>%s</option>", $familia["id_familia"], $familia["nombre"]);
+                            else
+                                printf("<option value='%d'>%s</option>", $familia["id_familia"], $familia["nombre"]);
                         }
                         ?>
                     </select></td>
             </tr>
             <tr>
                 <td><label for="fruto">Fruto de la planta:</label></td>
-                <td><input type="text" id="fruto" name="fruto" placeholder="Fruto"></td>
+                <td><input type="text" id="fruto" name="fruto" placeholder="Fruto" value="<?php echo $campos[3] ?>">
+                </td>
             </tr>
             <tr>
                 <td><label for="floracion">Floracion de la planta:</label></td>
-                <td><input type="text" id="floracion" name="floracion" placeholder="Floracion"></td>
+                <td><input type="text" id="floracion" name="floracion" placeholder="Floracion"
+                           value="<?php echo $campos[4] ?>"></td>
             </tr>
         </table>
 
         <label for="descripcion">Descripcion de la planta</label>
-        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la planta" rows="5"></textarea>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la planta"
+                  rows="5"><?php echo $campos[5] ?></textarea>
 
         <label for="usos">Usos de la planta</label>
-        <textarea name="usos" id="usos" rows="5"></textarea>
+        <textarea name="usos" id="usos" rows="5"><?php echo $campos[6] ?></textarea>
 
         <!-- Visualizacion de la imagen -->
         <div id="dropZone">
             Arrastra aquí una imagen
         </div>
-        <div id="preview">Imagen no disponible</div>
+        <div id="preview">
+            <?php if (!empty($campos[7])): ?>
+                <img src="<?php echo $campos[7]; ?>" alt="Imagen de la planta">
+            <?php else: ?>
+                Imagen no disponible
+            <?php endif; ?>
+        </div>
 
         <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
         <!-- El archivo maximo es de 2^24 + 3 https://dev.mysql.com/doc/refman/8.0/en/storage-requirements.html#data-types-storage-reqs-strings -->
