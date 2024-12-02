@@ -28,7 +28,9 @@ document.getElementById("dropZone").ondrop = function (ev) {
 }
 
 document.getElementById("plantaForm").onsubmit = function (ev) {
-    if (!file) {
+    const existingImage = document.querySelector("#preview>img");
+
+    if (!file && !existingImage) {
         ev.preventDefault();
         alert("Debes agregar una imagen antes de enviar el formulario.");
         return false;
@@ -45,9 +47,9 @@ document.getElementById("plantaForm").onsubmit = function (ev) {
         }
     }
 
-    if(document.getElementById("descripcionPlanta").value==""){
+    if (document.getElementById("descripcionPlanta").value === "") {
         ev.preventDefault();
-        alert("Debes poner texto aqui");    
+        alert("Debes poner texto aqui");
         document.getElementById("descripcionPlanta").focus();
         return false;
     }
