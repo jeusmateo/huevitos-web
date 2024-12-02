@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+if (!$_SESSION["valido"]) {
+    header("location: ../inicio_de_sesion.php?estado=4");
+    exit();
+}
+
 include 'funciones.php';
 
 $sql = "SELECT * FROM arbol_descripcion";
