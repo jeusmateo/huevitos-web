@@ -1,19 +1,19 @@
-
 window.onload = function () {
+    ejecutarPeticion("Php/leer.php", function (element) {
+        console.log(element)
+    })
+}
+
+function ejecutarPeticion(url, accion) {
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            const respuesta = JSON.parse(this.response);
-
-            const imagenPrueba = document.createElement("img");
-            imagenPrueba.setAttribute("src", respuesta[0].ruta_imagen);
-
-            document.getElementById("cardContainer").appendChild(imagenPrueba);
+            accion(this);
         }
-    };
-    xhttp.open("GET", "Php/leer.php", true);
-    xhttp.send();
+    }
 
+    xhttp.open("GET", url, true);
+    xhttp.send();
 }
 
 function CardInfo(title, image) {

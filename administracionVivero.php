@@ -71,7 +71,6 @@ if (!isset($_SESSION["valido"])) {
 </div>
 
 </body>
-
 <script src="Js/administracionVivero.js"></script>
 
 </html>
