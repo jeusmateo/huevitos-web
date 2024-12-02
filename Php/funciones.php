@@ -26,7 +26,7 @@ function ConsultarSQL ($servidor, $usuario, $contrasena, $basedatos, $sentenciaS
 	return $registros;
 }
 
-function ejecutarSQLConfigurado($sentenciaSQL): array {
+function ejecutar_sql_configurado($sentenciaSQL): array {
     $mysqli=abrir_conexion_sql();
 
     $resultado = $mysqli->query($sentenciaSQL);

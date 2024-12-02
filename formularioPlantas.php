@@ -61,7 +61,7 @@ if (!$_SESSION["valido"]) {
                         include 'Php/funciones.php';
                         $sql = "SELECT id_familia, nombre FROM arboles_familia";
 
-                        $familias = ejecutarSQLConfigurado($sql);
+                        $familias = ejecutar_sql_configurado($sql);
                         foreach ($familias as $familia) {
                             echo "<option value='$familia[id_familia]'>$familia[nombre]</option>\n";
                         }
