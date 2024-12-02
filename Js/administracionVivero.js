@@ -1,7 +1,12 @@
 window.onload = function () {
-    ejecutarPeticion("Php/leer.php", function (element) {
-        console.log(element)
-    })
+    ejecutarPeticion("Php/leer.php", function (xhttp) {
+        const respuesta = JSON.parse(xhttp.response);
+
+        console.log(respuesta);
+        respuesta.forEach((e)=>console.log(e));
+
+    });
+
 }
 
 function ejecutarPeticion(url, accion) {
