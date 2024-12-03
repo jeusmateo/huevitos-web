@@ -119,9 +119,10 @@
 <div id="contenidoCatalogo" class="restriccion">
     <div id="buscador">
         <div id="contenedorBarraBusqueda">
-            <form>
+            <form onsubmit="buscarPlantas(event)">
                 <input id="barrabusqueda" type="text" placeholder="Search.." name="search">
                 <img src="Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa">
+                <button type="submit">Buscar</button>
                 <!--<button type="submit"><img height="50px" alt="lupa"></button>-->
 
             </form>
@@ -138,30 +139,38 @@
 </body>
 <!--<script src="Js/administracionVivero.js"></script>-->
 <script>
-
     window.onload = function () {
-        ejecutarPeticion("Php/leer.php", function (xhttp) {
+        cargarPlantas("");
+    };
+
+    function buscarPlantas(event) {
+        event.preventDefault();
+        const searchTerm = document.getElementById('barrabusqueda').value.trim();
+        cargarPlantas(searchTerm);
+    }
+
+    function cargarPlantas(searchTerm) {
+        const url = searchTerm ? `Php/leer.php?search=${encodeURIComponent(searchTerm)}` : "Php/leer.php";
+        ejecutarPeticion(url, function (xhttp) {
             const listaPlantas = JSON.parse(xhttp.response);
+            const cardContainer = document.getElementById('cardContainer');
+            cardContainer.innerHTML = "";
             listaPlantas.forEach(function (planta) {
                 const newCard = document.createElement('div');
                 newCard.classList.add('card');
-
-                var image = document.createElement('img');
+                const image = document.createElement('img');
                 image.setAttribute("src", planta.ruta_imagen);
                 image.setAttribute("width", "270px");
                 image.setAttribute("height", "150px");
                 image.setAttribute("alt", planta.nombre_cientifico);
-
-                var plantName = document.createElement('h3');
+                const plantName = document.createElement('h3');
                 plantName.textContent = planta.nombre_cientifico;
-
                 newCard.appendChild(image);
                 newCard.appendChild(plantName);
-
-                document.getElementById('cardContainer').appendChild(newCard);
+                cardContainer.appendChild(newCard);
             });
         });
-    };
+    }
 
     function ejecutarPeticion(url, accion) {
         const xhttp = new XMLHttpRequest();
