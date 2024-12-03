@@ -1,13 +1,11 @@
 <?php
-// * * * *
 session_start();
 if (!$_SESSION["valido"]) {
     header("location: ../inicio_de_sesion.php?estado=4");
     exit();
 }
-// * * * *
 
-global $servidor, $usuario, $contrasena, $basedatos;
+global $servidor, $usuario, $contrasena, $basedatos, $carpeta_imagenes;
 include 'variables.php';
 include 'funciones.php';
 
@@ -19,64 +17,102 @@ function isFieldsEmpty(): bool
         empty($_REQUEST["fruto"]) ||
         empty($_REQUEST["floracion"]) ||
         empty($_REQUEST["descripcion"]) ||
-        empty($_REQUEST["usos"]) ||
-        empty($_FILES["imagen"]);
+        empty($_REQUEST["usos"]);
 }
 
-if (isFieldsEmpty() || $_FILES["imagen"]["error"] != UPLOAD_ERR_OK || $_FILES["imagen"]["size"] == 0) {
+if (isFieldsEmpty()) {
     header("location: ../formularioPlantas.php");
     exit();
 }
 
-// procesar imagen
-$tmp_name = htmlentities($_FILES["imagen"]["tmp_name"]);
-$contenido_imagen = file_get_contents($tmp_name);
+$conexion = abrir_conexion_sql();
+$ruta_imagen = '';
+
+if (!empty($_REQUEST["id_planta"])) {
+    $id = sprintf("%d", $_REQUEST["id_planta"]);
+    $stmt = $conexion->prepare("SELECT ruta_imagen FROM arboles WHERE id_arbol = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->bind_result($ruta_imagen);
+    $stmt->fetch();
+    $stmt->close();
+}
+
+if ($_FILES["imagen"]["error"] == UPLOAD_ERR_OK && $_FILES["imagen"]["size"] > 0) {
+    $tmp_name = $_FILES["imagen"]["tmp_name"];
+    $nombre_imagen = htmlentities(basename($_FILES["imagen"]["name"]));
+    $ruta_imagen = "$carpeta_imagenes/$nombre_imagen";
+
+    if (!file_exists($carpeta_imagenes)) {
+        mkdir($carpeta_imagenes);
+    }
+
+    if (!move_uploaded_file($tmp_name, $ruta_imagen)) {
+        header("location: ../formularioPlantas.php?error=2");
+        exit();
+    }
+} else {
+    header('location: ../formularioPlantas.php');
+}
 
 // Obtener los datos del formulario
-$nombreComunF = $_REQUEST["nombreComun"];
-$nombreCientificoF = $_REQUEST["nombreCientifico"];
-$familiaF = $_REQUEST["familia"];
-$frutoF = $_REQUEST["fruto"];
-$floracionF = $_REQUEST["floracion"];
-$descripcionF = $_REQUEST["descripcion"];
-$usosF = $_REQUEST["usos"];
-$imagenF = $contenido_imagen;
+$nombreComunF = htmlentities($_REQUEST["nombreComun"]);
+$nombreCientificoF = htmlentities($_REQUEST["nombreCientifico"]);
+$familiaF = htmlentities($_REQUEST["familia"]);
+$frutoF = htmlentities($_REQUEST["fruto"]);
+$floracionF = htmlentities($_REQUEST["floracion"]);
+$descripcionF = htmlentities($_REQUEST["descripcion"]);
+$usosF = htmlentities($_REQUEST["usos"]);
 
-//Evitar cross scripting - sustituir caracteres ' o " por equivalentes en HTML
-$nombreComunF = htmlentities($nombreComunF);
-$nombreCientificoF = htmlentities($nombreCientificoF);
-$familiaF = htmlentities($familiaF);
-$frutoF = htmlentities($frutoF);
-$floracionF = htmlentities($floracionF);
-$descripcionF = htmlentities($descripcionF);
-$usosF = htmlentities($usosF);
+if (empty($_REQUEST["id_planta"])) {
+    $stmt = $conexion->prepare("INSERT INTO arboles(
+        nombre_cientifico,
+        ruta_imagen,
+        id_familia,
+        nombre_comun,
+        descripcion,
+        fruto,
+        floracion,
+        usos
+    )
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 
-$conexion = abrir_conexion_sql();
+    $stmt->bind_param(
+        "ssisssss",
+        $nombreCientificoF,
+        $ruta_imagen,
+        $familiaF,
+        $nombreComunF,
+        $descripcionF,
+        $frutoF,
+        $floracionF,
+        $usosF
+    );
+} else {
+    $stmt = $conexion->prepare("UPDATE arboles
+    SET nombre_cientifico = ?,
+        ruta_imagen = ?,
+        id_familia = ?,
+        nombre_comun = ?,
+        descripcion = ?,
+        fruto = ?,
+        floracion = ?,
+        usos = ?
+    WHERE id_arbol = ?");
 
-$stmt = $conexion->prepare("INSERT INTO arboles(
-    nombre_cientifico,
-    binario_imagen,
-    id_familia,
-    nombre_comun,
-    descripcion,
-    fruto,
-    floracion,
-    usos
-)
-VALUES(?, ?, ?, ?, ?, ?, ?,?)");
-
-$stmt->bind_param(
-    "ssisssss",
-    $nombreCientificoF,
-    $imagenF,
-    $familiaF,
-    $nombreComunF,
-    $descripcionF,
-    $frutoF,
-    $floracionF,
-    $usosF
-);
+    $stmt->bind_param(
+        "ssisssssi",
+        $nombreCientificoF,
+        $ruta_imagen,
+        $familiaF,
+        $nombreComunF,
+        $descripcionF,
+        $frutoF,
+        $floracionF,
+        $usosF,
+        $id
+    );
+}
 
 $stmt->execute();
-
 header("location: ../administracionVivero.php");
