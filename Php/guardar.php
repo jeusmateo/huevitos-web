@@ -30,7 +30,7 @@ $ruta_imagen = '';
 
 if (!empty($_REQUEST["id_planta"])) {
     $id = sprintf("%d", $_REQUEST["id_planta"]);
-    $stmt = $conexion->prepare("SELECT ruta_imagen FROM arboles WHERE id_arbol = ?");
+    $stmt = $conexion->prepare("SELECT nombre_imagen FROM arboles WHERE id_arbol = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $stmt->bind_result($ruta_imagen);
@@ -67,7 +67,7 @@ $usosF = htmlentities($_REQUEST["usos"]);
 if (empty($_REQUEST["id_planta"])) {
     $stmt = $conexion->prepare("INSERT INTO arboles(
         nombre_cientifico,
-        ruta_imagen,
+        nombre_imagen,
         id_familia,
         nombre_comun,
         descripcion,
@@ -80,7 +80,7 @@ if (empty($_REQUEST["id_planta"])) {
     $stmt->bind_param(
         "ssisssss",
         $nombreCientificoF,
-        $ruta_imagen,
+        $nombre_imagen,
         $familiaF,
         $nombreComunF,
         $descripcionF,
@@ -91,7 +91,7 @@ if (empty($_REQUEST["id_planta"])) {
 } else {
     $stmt = $conexion->prepare("UPDATE arboles
     SET nombre_cientifico = ?,
-        ruta_imagen = ?,
+        nombre_imagen = ?,
         id_familia = ?,
         nombre_comun = ?,
         descripcion = ?,
@@ -103,7 +103,7 @@ if (empty($_REQUEST["id_planta"])) {
     $stmt->bind_param(
         "ssisssssi",
         $nombreCientificoF,
-        $ruta_imagen,
+        $nombre_imagen,
         $familiaF,
         $nombreComunF,
         $descripcionF,
