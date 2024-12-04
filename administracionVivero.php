@@ -71,6 +71,8 @@ if (!isset($_SESSION["valido"])) {
 </div>
 
 </body>
+<script src="Js/ajax.js"></script>
+<script src="Js/cardInfo.js"></script>
 <script src="Js/administracionVivero.js"></script>
 
 </html>

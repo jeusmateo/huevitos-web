@@ -1,7 +1,7 @@
 <?php
-
 session_start();
 
+// Redirigir si el usuario ya inició sesión
 if (isset($_SESSION["valido"])) {
     header("location: administracionVivero.php");
     exit();
@@ -9,8 +9,14 @@ if (isset($_SESSION["valido"])) {
 
 include("Php/funciones.php");
 
+// Revisar si existe la cookie para recordar el usuario
+$usuario = "";
+if (isset($_COOKIE["usuarioRecordado"])) {
+    $usuario = $_COOKIE["usuarioRecordado"];
+}
+
+// Manejo de estados para mensajes
 $estado = filter_input(INPUT_GET, "estado", FILTER_SANITIZE_URL);
-$usuario = filter_input(INPUT_GET, "usuario", FILTER_SANITIZE_STRING);
 
 switch ($estado) {
     case "1":
@@ -34,45 +40,6 @@ switch ($estado) {
 ?>
 
 
-<html>
-
-<head>
-    <title>Aplicación</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-
-    <script>
-        <?php echo "var estado = '" . $mensaje . "';"; ?>
-
-        function ocultarPanelEstado(panelEstado) {
-            document.getElementById("estado").style.visibility = "hidden";
-        }
-
-        window.onload = function() {
-
-            document.forma.onsubmit = function() {
-
-                // Validación individual
-                if (document.forma.usuario.value == "") {
-                    alert("Debe proporcionar el nombre de usuario.");
-                    document.forma.usuario.focus();
-                    return false;
-                }
-            }
-
-            document.forma.usuario.value = "<?php echo $usuario; ?>";
-
-            if (estado != "") {
-                panelEstado = document.getElementById("estado");
-                panelEstado.innerHTML = estado;
-                panelEstado.style.visibility = "visible";
-                setTimeout(ocultarPanelEstado, 3000);
-            }
-
-        }
-    </script>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -85,10 +52,11 @@ switch ($estado) {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const estado = "<?php echo $mensaje; ?>";
-            const usuario = "<?php echo $usuario; ?>";
+            const usuarioGuardado = "<?php echo $usuario; ?>";
 
             const panelEstado = document.getElementById("estado");
             const inputUsuario = document.getElementById("usuario");
+            const checkboxRecordar = document.getElementById("recordarUsuario");
 
             // Mostrar mensaje de estado si existe
             if (estado) {
@@ -104,33 +72,38 @@ switch ($estado) {
             }
 
             // Prellenar el campo de usuario si hay valor
-            if (usuario) {
-                inputUsuario.value = usuario;
+            if (usuarioGuardado) {
+                inputUsuario.value = usuarioGuardado;
+                checkboxRecordar.checked = true;
             }
         });
     </script>
 </head>
 
 <body>
-    <div class="contenedor">
-        <div class="caja-login">
-            <h2>Iniciar Sesión</h2>
-            <!-- Mensaje de estado -->
-            <div id="estado" class="mensaje-estado"></div>
-            <form action="Php/Validador.php" method="post" name="forma">
-                <div class="contenedor-input">
-                    <label for="usuario">Usuario</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
-                </div>
-                <div class="contenedor-input">
-                    <label for="contrasena">Contraseña</label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
-                </div>
-                <button type="submit" class="btn">Iniciar Sesión</button>
-                <p class="enlace-registro">Regresar al inicio <a href="index.html">Inicio</a></p>
-            </form>
-        </div>
+<div class="contenedor">
+    <div class="caja-login">
+        <h2>Iniciar Sesión</h2>
+        <!-- Mensaje de estado -->
+        <div id="estado" class="mensaje-estado"></div>
+        <form action="Php/Validador.php" method="post" name="forma">
+            <div class="contenedor-input">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+            </div>
+            <div class="contenedor-input">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <div class="contenedor-recordar">
+                <input type="checkbox" id="recordarUsuario" name="recordarUsuario">
+                <label for="recordarUsuario">Recordar Usuario</label>
+            </div>
+            <button type="submit" class="btn">Iniciar Sesión</button>
+            <p class="enlace-registro">Regresar al inicio <a href="index.html">Inicio</a></p>
+        </form>
     </div>
+</div>
 </body>
 
 </html>
