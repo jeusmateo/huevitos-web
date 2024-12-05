@@ -53,14 +53,15 @@ if (!isset($_SESSION["valido"])) {
 <div id="contenidoCatalogo" class="restriccion">
     <div id="buscador">
         <div id="contenedorBarraBusqueda">
-            <form>
+            <form onsubmit="buscarPlantas(event)">
                 <input id="barrabusqueda" type="text" placeholder="Search.." name="search">
-                <img src="Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa">
+                
+                <button type="submit"><img src="Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa"></button>
                 <!--<button type="submit"><img height="50px" alt="lupa"></button>-->
 
             </form>
         </div>
-        <input type="button" value="Add card" class="agregarCarta" onclick="addCard();">
+        <!--<input type="button" value="Add card" class="agregarCarta" onclick="addCard();">-->
         <input type="button" value="Registrar nueva planta" class="agregarCarta"
                onclick="location.href='formularioPlantas.php'">
     </div>
@@ -71,6 +72,8 @@ if (!isset($_SESSION["valido"])) {
 </div>
 
 </body>
+<script src="Js/ajax.js"></script>
+<script src="Js/cardInfo.js"></script>
 <script src="Js/administracionVivero.js"></script>
 
 </html>

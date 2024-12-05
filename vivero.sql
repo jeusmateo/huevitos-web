@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2024 at 02:34 AM
+-- Generation Time: Dec 04, 2024 at 02:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `vivero`
 --
+CREATE DATABASE IF NOT EXISTS `vivero` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `vivero`;
 
 -- --------------------------------------------------------
 
@@ -27,10 +29,11 @@ SET time_zone = "+00:00";
 -- Table structure for table `arboles`
 --
 
+DROP TABLE IF EXISTS `arboles`;
 CREATE TABLE `arboles` (
   `id_arbol` int(11) NOT NULL,
   `nombre_cientifico` varchar(100) NOT NULL,
-  `ruta_imagen` varchar(255) NOT NULL,
+  `nombre_imagen` varchar(255) NOT NULL,
   `id_familia` int(11) NOT NULL,
   `nombre_comun` varchar(100) NOT NULL,
   `descripcion` text NOT NULL,
@@ -43,8 +46,9 @@ CREATE TABLE `arboles` (
 -- Dumping data for table `arboles`
 --
 
-INSERT INTO `arboles` (`id_arbol`, `nombre_cientifico`, `ruta_imagen`, `id_familia`, `nombre_comun`, `descripcion`, `fruto`, `floracion`, `usos`) VALUES
-(40, 'a', '../data/RSULogo.png', 7, 'a', 'a', 'a', 'a', 'a');
+INSERT INTO `arboles` (`id_arbol`, `nombre_cientifico`, `nombre_imagen`, `id_familia`, `nombre_comun`, `descripcion`,
+                       `fruto`, `floracion`, `usos`)
+VALUES (51, 'a', 'RSULogo.png', 7, 'a', 'a', 'a', 'a', 'a');
 
 -- --------------------------------------------------------
 
@@ -52,6 +56,7 @@ INSERT INTO `arboles` (`id_arbol`, `nombre_cientifico`, `ruta_imagen`, `id_famil
 -- Table structure for table `arboles_familia`
 --
 
+DROP TABLE IF EXISTS `arboles_familia`;
 CREATE TABLE `arboles_familia` (
   `id_familia` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL
@@ -72,10 +77,11 @@ INSERT INTO `arboles_familia` (`id_familia`, `nombre`) VALUES
 -- Stand-in structure for view `arbol_descripcion`
 -- (See below for the actual view)
 --
+DROP VIEW IF EXISTS `arbol_descripcion`;
 CREATE TABLE `arbol_descripcion` (
 `id_arbol` int(11)
-,`familia` varchar(20)
-,`ruta_imagen` varchar(255)
+,`familia` varchar(20),
+`nombre_imagen` varchar(255)
 ,`nombre_cientifico` varchar(100)
 ,`nombre_comun` varchar(100)
 ,`descripcion` text
@@ -90,6 +96,7 @@ CREATE TABLE `arbol_descripcion` (
 -- Table structure for table `usuarios`
 --
 
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `usuario` varchar(10) NOT NULL,
@@ -111,7 +118,19 @@ INSERT INTO `usuarios` (`id_usuario`, `usuario`, `contrasena`, `nombre`) VALUES
 --
 DROP TABLE IF EXISTS `arbol_descripcion`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `arbol_descripcion`  AS SELECT `a`.`id_arbol` AS `id_arbol`, `af`.`nombre` AS `familia`, `a`.`ruta_imagen` AS `ruta_imagen`, `a`.`nombre_cientifico` AS `nombre_cientifico`, `a`.`nombre_comun` AS `nombre_comun`, `a`.`descripcion` AS `descripcion`, `a`.`fruto` AS `fruto`, `a`.`floracion` AS `floracion`, `a`.`usos` AS `usos` FROM (`arboles` `a` join `arboles_familia` `af`) WHERE `a`.`id_familia` = `af`.`id_familia` ;
+DROP VIEW IF EXISTS `arbol_descripcion`;
+CREATE ALGORITHM = UNDEFINED DEFINER =`root`@`localhost` SQL SECURITY DEFINER VIEW `arbol_descripcion` AS
+SELECT `a`.`id_arbol`          AS `id_arbol`,
+       `af`.`nombre`           AS `familia`,
+       `a`.`nombre_imagen`     AS `nombre_imagen`,
+       `a`.`nombre_cientifico` AS `nombre_cientifico`,
+       `a`.`nombre_comun`      AS `nombre_comun`,
+       `a`.`descripcion`       AS `descripcion`,
+       `a`.`fruto`             AS `fruto`,
+       `a`.`floracion`         AS `floracion`,
+       `a`.`usos`              AS `usos`
+FROM (`arboles` `a` join `arboles_familia` `af`)
+WHERE `a`.`id_familia` = `af`.`id_familia`;
 
 --
 -- Indexes for dumped tables
@@ -144,7 +163,8 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `arboles`
 --
 ALTER TABLE `arboles`
-  MODIFY `id_arbol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+    MODIFY `id_arbol` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 52;
 
 --
 -- AUTO_INCREMENT for table `arboles_familia`

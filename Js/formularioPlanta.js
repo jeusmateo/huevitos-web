@@ -47,10 +47,10 @@ document.getElementById("plantaForm").onsubmit = function (ev) {
         }
     }
 
-    if (document.getElementById("descripcionPlanta").value === "") {
+    if (document.getElementById("descripcion").value === "") {
         ev.preventDefault();
         alert("Debes poner texto aqui");
-        document.getElementById("descripcionPlanta").focus();
+        document.getElementById("descripcion").focus();
         return false;
     }
 

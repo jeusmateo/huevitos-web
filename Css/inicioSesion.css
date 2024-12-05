@@ -105,4 +105,10 @@ body {
     color: #57b8a4;
 }
 
+.contenedor-recordar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
