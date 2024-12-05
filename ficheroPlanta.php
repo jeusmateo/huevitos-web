@@ -42,15 +42,6 @@ if ($id) {
 
     $stmt->fetch();
 
-    $familia = htmlspecialchars($familia, ENT_QUOTES, 'UTF-8');
-    $nombre_imagen = htmlspecialchars($nombre_imagen, ENT_QUOTES, 'UTF-8');
-    $nombre_cientifico = htmlspecialchars($nombre_cientifico, ENT_QUOTES, 'UTF-8');
-    $nombre_comun = htmlspecialchars($nombre_comun, ENT_QUOTES, 'UTF-8');
-    $descripcion = htmlspecialchars($descripcion, ENT_QUOTES, 'UTF-8');
-    $fruto = htmlspecialchars($fruto, ENT_QUOTES, 'UTF-8');
-    $floracion = htmlspecialchars($floracion, ENT_QUOTES, 'UTF-8');
-    $usos = htmlspecialchars($usos, ENT_QUOTES, 'UTF-8');
-
 }
 
 ?>
