@@ -21,7 +21,7 @@ if ($accion == 'editar' && $id_planta != "") {
                    floracion, 
                    descripcion, 
                    usos,
-                   ruta_imagen,
+                   nombre_imagen,
                    id_arbol FROM arboles WHERE id_arbol = ?";
     $conexion = abrir_conexion_sql();
     $stmt = $conexion->prepare($sql);
