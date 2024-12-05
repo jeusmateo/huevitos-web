@@ -129,7 +129,7 @@ if ($accion == 'editar' && $id_planta != "") {
         </div>
         <div id="preview">
             <?php if (!empty($campos[7])): ?>
-                <img src="<?php echo $campos[7]; ?>" alt="Imagen de la planta">
+                <img src="data/<?php echo $campos[7]; ?>" alt="Imagen de la planta">
             <?php else: ?>
                 Imagen no disponible
             <?php endif; ?>

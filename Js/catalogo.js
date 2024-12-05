@@ -28,6 +28,9 @@ function cargarPlantas(searchTerm) {
             plantName.textContent = planta.nombre_cientifico;
             newCard.appendChild(image);
             newCard.appendChild(plantName);
+            newCard.onclick = function () {
+                location.href = "ficheroPlanta.php?id=" + planta.id_arbol;
+            }
             cardContainer.appendChild(newCard);
         });
     });
