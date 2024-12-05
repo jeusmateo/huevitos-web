@@ -60,7 +60,7 @@ if (!isset($_SESSION["valido"])) {
 
             </form>
         </div>
-        <input type="button" value="Add card" class="agregarCarta" onclick="addCard();">
+        <!--<input type="button" value="Add card" class="agregarCarta" onclick="addCard();">-->
         <input type="button" value="Registrar nueva planta" class="agregarCarta"
                onclick="location.href='formularioPlantas.php'">
     </div>
