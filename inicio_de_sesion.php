@@ -39,7 +39,6 @@ switch ($estado) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -52,7 +51,6 @@ switch ($estado) {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const estado = "<?php echo $mensaje; ?>";
-            const usuarioGuardado = "<?php echo $usuario; ?>";
 
             const panelEstado = document.getElementById("estado");
             const inputUsuario = document.getElementById("usuario");
@@ -71,11 +69,22 @@ switch ($estado) {
                 }, 3000);
             }
 
-            // Prellenar el campo de usuario si hay valor
+            // Prellenar el campo de usuario desde localStorage
+            const usuarioGuardado = localStorage.getItem("usuarioRecordado");
             if (usuarioGuardado) {
                 inputUsuario.value = usuarioGuardado;
                 checkboxRecordar.checked = true;
             }
+
+            // Guardar o eliminar el usuario en localStorage al enviar el formulario
+            const form = document.forms["forma"];
+            form.addEventListener("submit", function () {
+                if (checkboxRecordar.checked) {
+                    localStorage.setItem("usuarioRecordado", inputUsuario.value);
+                } else {
+                    localStorage.removeItem("usuarioRecordado");
+                }
+            });
         });
     </script>
 </head>
