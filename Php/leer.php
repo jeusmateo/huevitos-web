@@ -8,7 +8,6 @@ if (!empty($search)) {
     $sql .= " WHERE nombre_cientifico LIKE '%$search%' OR nombre_comun LIKE '%$search%'";
 }
 
-
 $arboles = ejecutar_sql_configurado($sql);
 http_response_code(200);
 header('Content-type: application/json');

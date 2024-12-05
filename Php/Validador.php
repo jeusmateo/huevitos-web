@@ -46,4 +46,3 @@ if (mysqli_num_rows($resultado) > 0) {
     // Si no redirigir a la página inicio_de_sesion.php con estado 3
     header("location: ../inicio_de_sesion.php?estado=3");
 }
-?>
