@@ -53,9 +53,10 @@ if (!isset($_SESSION["valido"])) {
 <div id="contenidoCatalogo" class="restriccion">
     <div id="buscador">
         <div id="contenedorBarraBusqueda">
-            <form>
+            <form onsubmit="buscarPlantas(event)">
                 <input id="barrabusqueda" type="text" placeholder="Search.." name="search">
-                <img src="Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa">
+                
+                <button type="submit"><img src="Recursos/img/lupa.png" width="30px" height="30px" align="center" alt="lupa"></button>
                 <!--<button type="submit"><img height="50px" alt="lupa"></button>-->
 
             </form>
