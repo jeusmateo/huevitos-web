@@ -52,7 +52,25 @@ if ($id) {
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Fichero(ejemplo) | Vivero Institucional</title>
     <link href="Css/FicheroPlanta.css" rel="stylesheet">
+    <style>
+        button {
+            background-color: #C79316;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
+        #boton-descarga{
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+
+    </style>
 </head>
 <body>
 <header id="encabezado">
@@ -88,6 +106,7 @@ if ($id) {
         </div>
         <div id="planta-container">
             <div id="imagen-planta">
+                <a href="data/<?php echo $nombre_imagen ?>" download="<?php echo $nombre_imagen ?>"><button id="boton-descarga">Descargar</button></a>
                 <img alt="" height="700" src="data/<?php echo $nombre_imagen ?>" width="600">
                 <!--                <div id="imagen-texto">-->
                 <!--                    <table border="0" cellpadding="2px" id="tabla-imagen">-->
