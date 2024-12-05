@@ -1,7 +1,18 @@
 const ruta_imagenes = './data/';
 
 window.onload = function () {
-    ejecutarPeticion("Php/leer.php", function (xhttp) {
+    cargarPlantas("");
+};
+
+function buscarPlantas(event) {
+    event.preventDefault();
+    const searchTerm = document.getElementById('barrabusqueda').value.trim();
+    cargarPlantas(searchTerm);
+}
+
+function cargarPlantas(searchTerm) {
+    const url = searchTerm ? `Php/leer.php?search=${encodeURIComponent(searchTerm)}` : "Php/leer.php";
+    ejecutarPeticion(url, function (xhttp) {
         const listaPlantas = JSON.parse(xhttp.response);
         const cardContainer = document.getElementById('cardContainer');
         cardContainer.innerHTML = "";
@@ -18,10 +29,9 @@ window.onload = function () {
             newCard.appendChild(image);
             newCard.appendChild(plantName);
             newCard.onclick = function () {
-                location.href = "formularioPlantas.php?accion=editar&id=" + planta.id_arbol;
+                location.href = "ficheroPlanta.php?id=" + planta.id_arbol;
             }
             cardContainer.appendChild(newCard);
         });
     });
-
 }
