@@ -2,9 +2,13 @@
 
 include 'funciones.php';
 
-$usuarioF = (isset($_REQUEST["usuario"]) && is_string($_REQUEST["usuario"])) ? $_REQUEST["usuario"] : "";
-$contrasenaF = (isset($_REQUEST["contrasena"]) && is_string($_REQUEST["contrasena"])) ? $_REQUEST["contrasena"] : "";
-$recordarUsuario = isset($_REQUEST["recordarUsuario"]) ? true : false; // Verificar si se seleccionó "Recordar usuario"
+//$usuarioF = (isset($_REQUEST["usuario"]) && is_string($_REQUEST["usuario"])) ? $_REQUEST["usuario"] : "";
+//$contrasenaF = (isset($_REQUEST["contrasena"]) && is_string($_REQUEST["contrasena"])) ? $_REQUEST["contrasena"] : "";
+//$recordarUsuario = isset($_REQUEST["recordarUsuario"]) ? true : false; // Verificar si se seleccionó "Recordar usuario"
+
+$usuarioF = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
+$contrasenaF = filter_input(INPUT_POST, 'contrasena', FILTER_SANITIZE_STRING);
+$recordarUsuario = filter_input(INPUT_POST, 'recordarUsuario', FILTER_VALIDATE_BOOL);
 
 if ($usuarioF == "") {
     header("location: ../inicio_de_sesion.php?estado=1");
